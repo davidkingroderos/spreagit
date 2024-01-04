@@ -1,7 +1,6 @@
-﻿namespace dk.roderos.SpreaGit.Domain
-{
-    public class Class1
-    {
+﻿namespace dk.roderos.SpreaGit.Domain;
 
-    }
+public class Class1
+{
+
 }
