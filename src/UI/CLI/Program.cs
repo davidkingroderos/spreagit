@@ -10,21 +10,27 @@ try
 
     builder.Services.AddScoped<ISpreaGitService, SpreaGitService>();
 
-    builder.Logging.AddConsole();
+    builder.Logging.AddSimpleConsole(options =>
+    {
+        options.SingleLine = true;
+        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
+    });
 
     using IHost host = builder.Build();
 
-    string? input= builder.Configuration.GetValue<string>("output");
-    string? output= builder.Configuration.GetValue<string>("input");
-    string? start= builder.Configuration.GetValue<string>("start");
-    string? end= builder.Configuration.GetValue<string>("end");
-
     var logger = host.Services.GetRequiredService<ILogger<Program>>();
+
+#if DEBUG
+    string? input = builder.Configuration.GetValue<string>("output");
+    string? output = builder.Configuration.GetValue<string>("input");
+    string? start = builder.Configuration.GetValue<string>("start");
+    string? end = builder.Configuration.GetValue<string>("end");
 
     logger.LogInformation("Input Path: {input}", input);
     logger.LogInformation("Output Path: {output}", output);
     logger.LogInformation("End Date: {start}", start);
     logger.LogInformation("Start Date: {end}", end);
+#endif
 
     var spreaGitService = host.Services.GetRequiredService<ISpreaGitService>();
 

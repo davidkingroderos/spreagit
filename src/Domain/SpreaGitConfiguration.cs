@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
-{
-    public record SpreaGitConfiguration(string InputPath, string OutputPath, string StartDate, string EndDate);
-}
+namespace Domain;
+
+public record SpreaGitConfiguration(string InputPath, string OutputPath, string StartDate, string EndDate);

@@ -2,7 +2,7 @@
   "profiles": {
     "CLI": {
       "commandName": "Project",
-      "commandLineArgs": "--start=\"Test Start Date\" \r\n--end=\"Test End Date\"\r\n--input=\"Test Directory Input\"\r\n--output=\"Test Directory Output\""
+      "commandLineArgs": "--start=\"Start Date\" \r\n--end=\"End Date\"\r\n--input=\"Input Path\"\r\n--output=\"Output Path\""
     }
   }
 }
