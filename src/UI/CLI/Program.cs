@@ -1,4 +1,5 @@
 ﻿using dk.roderos.SpreaGit.Application;
+using dk.roderos.SpreaGit.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,7 @@ try
     var builder = Host.CreateApplicationBuilder(args);
 
     builder.Services.AddScoped<ISpreaGitService, SpreaGitService>();
+    builder.Services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
 
     builder.Logging.AddSimpleConsole(options =>
     {
@@ -44,6 +46,6 @@ catch (Exception ex)
 finally
 {
     Console.ForegroundColor = ConsoleColor.Gray;
-    Console.WriteLine("Press any key to exit...");
-    Console.ReadKey();
+    // Console.WriteLine("Press any key to exit...");
+    // Console.ReadKey();
 }

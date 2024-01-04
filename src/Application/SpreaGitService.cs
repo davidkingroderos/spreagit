@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using dk.roderos.SpreaGit.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +11,18 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
 
     public async Task SpreaGitAsync()
     {
+        var configFile = configuration.GetSection("input").Value;
+
+        if (!Directory.Exists(configFile))
+        {
+            logger.LogWarning("Configuration file doesn't exists: {configFile}.", configFile);
+            logger.LogWarning("Using default configuration");
+
+            configFile = "./sample-config.json";
+        }
+
+        logger.LogInformation("Config: {config}", configFile);
+
         var inputPath = configuration.GetSection("input").Value ?? "Null";
         var outputPath = configuration.GetSection("output").Value ?? "Null";
         var startDate = configuration.GetSection("start").Value ?? "Null";
