@@ -14,17 +14,21 @@ try
 
     using IHost host = builder.Build();
 
-    string? input = builder.Configuration.GetValue<string>("output");
-    string? output = builder.Configuration.GetValue<string>("input");
-    string? start = builder.Configuration.GetValue<string>("start");
-    string? end = builder.Configuration.GetValue<string>("end");
+    string? input= builder.Configuration.GetValue<string>("output");
+    string? output= builder.Configuration.GetValue<string>("input");
+    string? start= builder.Configuration.GetValue<string>("start");
+    string? end= builder.Configuration.GetValue<string>("end");
 
     var logger = host.Services.GetRequiredService<ILogger<Program>>();
 
-    logger.LogInformation("Input Folder: {input}", input);
-    logger.LogInformation("Output Folder: {output}", output);
-    logger.LogInformation("End Date: {hi}", start);
-    logger.LogInformation("Start Date: {hi}", end);
+    logger.LogInformation("Input Path: {input}", input);
+    logger.LogInformation("Output Path: {output}", output);
+    logger.LogInformation("End Date: {start}", start);
+    logger.LogInformation("Start Date: {end}", end);
+
+    var spreaGitService = host.Services.GetRequiredService<ISpreaGitService>();
+
+    await spreaGitService.SpreaGitAsync();
 }
 catch (Exception ex)
 {
