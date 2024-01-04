@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2C02FFC3-3319-410D-B0A3-F7A302856A7E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3F79C971-500D-4703-916B-420A8F1F4234}"
-	ProjectSection(SolutionItems) = preProject
-		GlobalUsings.cs = GlobalUsings.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{740EC606-DAF3-42F0-9870-3F80EA5A3B3B}"
 EndProject
