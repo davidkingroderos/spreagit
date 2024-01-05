@@ -2,7 +2,7 @@
   "profiles": {
     "CLI": {
       "commandName": "Project",
-      "commandLineArgs": "--start=\"Start Date\" \r\n--end=\"End Date\"\r\n--input=\"Input Path\"\r\n--output=\"Output Path\""
+      "commandLineArgs": "--config=\"C:\\Users\\dkrod\\Desktop\\SpreaGit Defaults\\default-config.json\""
     }
   }
 }

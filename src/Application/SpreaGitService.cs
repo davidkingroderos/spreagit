@@ -1,34 +1,34 @@
-﻿using dk.roderos.SpreaGit.Domain;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace dk.roderos.SpreaGit.Application;
 
-public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger) : ISpreaGitService
+public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, IConfigurationReader configurationReader) : ISpreaGitService
 {
     private readonly IConfiguration configuration = configuration;
     private readonly ILogger<SpreaGitService> logger = logger;
+    private readonly IConfigurationReader configurationReader = configurationReader;
 
     public async Task SpreaGitAsync()
     {
-        var configFile = configuration.GetSection("input").Value;
+        var configFile = configuration.GetSection("config").Value;
+        logger.LogInformation("Config File: {configFile}", configFile);
 
-        if (!Directory.Exists(configFile))
+        if (string.IsNullOrEmpty(configFile))
         {
-            logger.LogWarning("Configuration file doesn't exists: {configFile}.", configFile);
-            logger.LogWarning("Using default configuration");
+            logger.LogError("Must specify 'config' argument");
 
-            configFile = "./sample-config.json";
+            return;
         }
 
-        logger.LogInformation("Config: {config}", configFile);
+        if (!File.Exists(configFile))
+        {
+            logger.LogError("File does not exists: {configFile}", configFile);
 
-        var inputPath = configuration.GetSection("input").Value ?? "Null";
-        var outputPath = configuration.GetSection("output").Value ?? "Null";
-        var startDate = configuration.GetSection("start").Value ?? "Null";
-        var endDate = configuration.GetSection("end").Value ?? "Null";
+            return;
+        }
 
-        var spreaGitConfiguration = new SpreaGitConfiguration(inputPath, outputPath, startDate, endDate);
+        var spreaGitConfiguration = await configurationReader.ReadConfigurationAsync(configFile);
 
         logger.LogInformation("SpreaGit Configuration: {spreaGitConfiguration}", spreaGitConfiguration);
     }

@@ -46,6 +46,6 @@ catch (Exception ex)
 finally
 {
     Console.ForegroundColor = ConsoleColor.Gray;
-    // Console.WriteLine("Press any key to exit...");
-    // Console.ReadKey();
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
 }

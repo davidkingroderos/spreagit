@@ -1,24 +1,16 @@
-﻿using System.Security.Cryptography;
-using System.Text.Json;
-using dk.roderos.SpreaGit.Application;
+﻿using dk.roderos.SpreaGit.Application;
 using dk.roderos.SpreaGit.Domain;
+using System.Text.Json;
 
 namespace dk.roderos.SpreaGit.Infrastructure;
 
 public class JsonConfigurationReader : IConfigurationReader
 {
-    public async Task<SpreaGitConfiguration> ReadConfigurationAsync(string configFile)
+    public async Task<SpreaGitConfiguration?> ReadConfigurationAsync(string configuration)
     {
-        if (!File.Exists(configFile))
-        {
-            throw new FileNotFoundException($"{configFile} does not exist.");
-        }
+        using var file = File.OpenRead(configuration);
 
-        using var file = File.OpenRead(configFile);
-
-        // TODO: Read Json and Convert to SpreaGitConfiguration
-
-        throw new NotImplementedException();
+        return await JsonSerializer.DeserializeAsync<SpreaGitConfiguration?>(file);
     }
 }
 

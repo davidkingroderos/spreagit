@@ -4,5 +4,5 @@ namespace dk.roderos.SpreaGit.Application;
 
 public interface IConfigurationReader
 {
-    Task<SpreaGitConfiguration> ReadConfigurationAsync(string configFile);
+    Task<SpreaGitConfiguration?> ReadConfigurationAsync(string configuration);
 }
