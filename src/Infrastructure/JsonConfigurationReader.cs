@@ -13,4 +13,3 @@ public class JsonConfigurationReader : IConfigurationReader
         return await JsonSerializer.DeserializeAsync<SpreaGitConfiguration?>(file);
     }
 }
-

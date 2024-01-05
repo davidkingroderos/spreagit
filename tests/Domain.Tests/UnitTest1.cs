@@ -1,4 +1,4 @@
-namespace dk.roderos.Domain.Tests;
+namespace dk.roderos.SpreaGit.Domain.Tests;
 
 public class UnitTest1
 {

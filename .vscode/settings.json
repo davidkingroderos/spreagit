@@ -1,0 +1,4 @@
+{
+    "dotnet.defaultSolution": "dk.roderos.SpreaGit.sln",
+    "csharp.debug.console": "externalTerminal"
+}

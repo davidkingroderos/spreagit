@@ -1,6 +1,5 @@
 ﻿using dk.roderos.SpreaGit.Application;
 using dk.roderos.SpreaGit.Infrastructure;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,24 +14,12 @@ try
     builder.Logging.AddSimpleConsole(options =>
     {
         options.SingleLine = true;
-        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
+        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss";
     });
 
     using IHost host = builder.Build();
 
     var logger = host.Services.GetRequiredService<ILogger<Program>>();
-
-#if DEBUG
-    string? input = builder.Configuration.GetValue<string>("output");
-    string? output = builder.Configuration.GetValue<string>("input");
-    string? start = builder.Configuration.GetValue<string>("start");
-    string? end = builder.Configuration.GetValue<string>("end");
-
-    logger.LogInformation("Input Path: {input}", input);
-    logger.LogInformation("Output Path: {output}", output);
-    logger.LogInformation("End Date: {start}", start);
-    logger.LogInformation("Start Date: {end}", end);
-#endif
 
     var spreaGitService = host.Services.GetRequiredService<ISpreaGitService>();
 
