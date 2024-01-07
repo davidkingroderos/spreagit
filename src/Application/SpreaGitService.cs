@@ -3,11 +3,12 @@ using Microsoft.Extensions.Logging;
 
 namespace dk.roderos.SpreaGit.Application;
 
-public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, IConfigurationReader configurationReader) : ISpreaGitService
+public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, IConfigurationReader configurationReader, IRepositoryReader repositoryReader) : ISpreaGitService
 {
     private readonly IConfiguration configuration = configuration;
     private readonly ILogger<SpreaGitService> logger = logger;
     private readonly IConfigurationReader configurationReader = configurationReader;
+    private readonly IRepositoryReader repositoryReader = repositoryReader;
 
     public async Task SpreaGitAsync()
     {
@@ -31,5 +32,26 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
         var spreaGitConfiguration = await configurationReader.ReadConfigurationAsync(configFile);
 
         logger.LogInformation("SpreaGit Configuration: {spreaGitConfiguration}", spreaGitConfiguration);
+
+        string repositoryPath = spreaGitConfiguration!.RepositoryPath;
+
+        if (!Directory.Exists(repositoryPath))
+        {
+            logger.LogError("Directory does not exists: {repositoryPath}", repositoryPath);
+
+            return;
+        }
+
+        var commits = repositoryReader.GetGitCommits(repositoryPath);
+
+        logger.LogInformation("Logs count: {commitsCount}", commits.Count());
+
+        foreach (var commit in commits)
+        {
+            logger.LogInformation("Id: {id}", commit.Id);
+            //logger.LogInformation("Email: {email}", log.Email);
+            //logger.LogInformation("Author: {author}", log.Author);
+            //logger.LogInformation("Message: {message}", log.Message);
+        }
     }
 }

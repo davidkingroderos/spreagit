@@ -10,17 +10,17 @@ try
 
     builder.Services.AddScoped<ISpreaGitService, SpreaGitService>();
     builder.Services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
+    builder.Services.AddScoped<IRepositoryReader, RepositoryReader>();
 
     builder.Logging.AddSimpleConsole(options =>
     {
         options.SingleLine = true;
-        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss";
+        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
     });
 
     using IHost host = builder.Build();
 
     var logger = host.Services.GetRequiredService<ILogger<Program>>();
-
     var spreaGitService = host.Services.GetRequiredService<ISpreaGitService>();
 
     await spreaGitService.SpreaGitAsync();
