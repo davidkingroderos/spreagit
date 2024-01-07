@@ -9,5 +9,5 @@ namespace dk.roderos.SpreaGit.Application;
 
 public interface IRepositoryWriter
 {
-    void WriteGitCommits(string outputPath, IEnumerable<GitLog> commits);
+    void WriteGitCommits(string outputRepositoryPath, IEnumerable<GitLog> commits);
 }

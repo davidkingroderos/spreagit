@@ -4,12 +4,13 @@ using Microsoft.Extensions.Logging;
 namespace dk.roderos.SpreaGit.Application;
 
 public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, 
-    IConfigurationReader configurationReader, IRepositoryReader repositoryReader) : ISpreaGitService
+    IConfigurationReader configurationReader, IRepositoryReader repositoryReader, IRepositoryWriter repositoryWriter) : ISpreaGitService
 {
     private readonly IConfiguration configuration = configuration;
     private readonly ILogger<SpreaGitService> logger = logger;
     private readonly IConfigurationReader configurationReader = configurationReader;
     private readonly IRepositoryReader repositoryReader = repositoryReader;
+    private readonly IRepositoryWriter repositoryWriter = repositoryWriter;
 
     public async Task SpreaGitAsync()
     {
@@ -59,6 +60,8 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
 
         var outputRepositoryName = new DirectoryInfo(repositoryPath).Name + " spreagit";
         var outputRepositoryPath = Path.Combine(outputPath, outputRepositoryName);
+        
+        logger.LogInformation("Ouput Repository Path: {outputPath}", repositoryPath);
 
         var suffix = 1;
         while (Directory.Exists(outputRepositoryPath))
@@ -68,5 +71,7 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
         }
 
         Directory.CreateDirectory(outputRepositoryPath);
+
+        repositoryWriter.WriteGitCommits(outputRepositoryPath, commits);
     }
 }
