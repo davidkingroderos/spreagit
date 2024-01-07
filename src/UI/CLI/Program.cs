@@ -11,6 +11,7 @@ try
     builder.Services.AddScoped<ISpreaGitService, SpreaGitService>();
     builder.Services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
     builder.Services.AddScoped<IRepositoryReader, RepositoryReader>();
+    builder.Services.AddScoped<IRepositoryWriter, RepositoryWriter>();
 
     builder.Logging.AddSimpleConsole(options =>
     {

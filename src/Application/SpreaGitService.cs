@@ -3,7 +3,8 @@ using Microsoft.Extensions.Logging;
 
 namespace dk.roderos.SpreaGit.Application;
 
-public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, IConfigurationReader configurationReader, IRepositoryReader repositoryReader) : ISpreaGitService
+public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, 
+    IConfigurationReader configurationReader, IRepositoryReader repositoryReader) : ISpreaGitService
 {
     private readonly IConfiguration configuration = configuration;
     private readonly ILogger<SpreaGitService> logger = logger;
@@ -13,6 +14,7 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
     public async Task SpreaGitAsync()
     {
         var configFile = configuration.GetSection("config").Value;
+
         logger.LogInformation("Config File: {configFile}", configFile);
 
         if (string.IsNullOrEmpty(configFile))
@@ -33,7 +35,7 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
 
         logger.LogInformation("SpreaGit Configuration: {spreaGitConfiguration}", spreaGitConfiguration);
 
-        string repositoryPath = spreaGitConfiguration!.RepositoryPath;
+        var repositoryPath = spreaGitConfiguration!.RepositoryPath;
 
         if (!Directory.Exists(repositoryPath))
         {
@@ -49,9 +51,22 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
         foreach (var commit in commits)
         {
             logger.LogInformation("Id: {id}", commit.Id);
-            //logger.LogInformation("Email: {email}", log.Email);
-            //logger.LogInformation("Author: {author}", log.Author);
-            //logger.LogInformation("Message: {message}", log.Message);
         }
+
+        var outputPath = spreaGitConfiguration!.OutputPath;
+
+        logger.LogInformation("Output Path: {outputPath}", repositoryPath);
+
+        var outputRepositoryName = new DirectoryInfo(repositoryPath).Name + " spreagit";
+        var outputRepositoryPath = Path.Combine(outputPath, outputRepositoryName);
+
+        var suffix = 1;
+        while (Directory.Exists(outputRepositoryPath))
+        {
+            outputRepositoryPath = Path.Combine(outputPath, $"{outputRepositoryName} ({suffix})");
+            suffix++;
+        }
+
+        Directory.CreateDirectory(outputRepositoryPath);
     }
 }

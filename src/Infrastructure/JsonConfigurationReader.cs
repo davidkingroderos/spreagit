@@ -8,8 +8,8 @@ public class JsonConfigurationReader : IConfigurationReader
 {
     public async Task<SpreaGitConfiguration?> ReadConfigurationAsync(string configuration)
     {
-        using var file = File.OpenRead(configuration);
+        using var configurationFile = File.OpenRead(configuration);
 
-        return await JsonSerializer.DeserializeAsync<SpreaGitConfiguration?>(file);
+        return await JsonSerializer.DeserializeAsync<SpreaGitConfiguration?>(configurationFile);
     }
 }
