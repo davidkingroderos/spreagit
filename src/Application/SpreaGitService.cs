@@ -3,15 +3,19 @@ using Microsoft.Extensions.Logging;
 
 namespace dk.roderos.SpreaGit.Application;
 
-public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, IConfigurationReader configurationReader) : ISpreaGitService
+public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, 
+    IConfigurationReader configurationReader, IRepositoryReader repositoryReader, IRepositoryWriter repositoryWriter) : ISpreaGitService
 {
     private readonly IConfiguration configuration = configuration;
     private readonly ILogger<SpreaGitService> logger = logger;
     private readonly IConfigurationReader configurationReader = configurationReader;
+    private readonly IRepositoryReader repositoryReader = repositoryReader;
+    private readonly IRepositoryWriter repositoryWriter = repositoryWriter;
 
     public async Task SpreaGitAsync()
     {
         var configFile = configuration.GetSection("config").Value;
+
         logger.LogInformation("Config File: {configFile}", configFile);
 
         if (string.IsNullOrEmpty(configFile))
@@ -31,5 +35,43 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
         var spreaGitConfiguration = await configurationReader.ReadConfigurationAsync(configFile);
 
         logger.LogInformation("SpreaGit Configuration: {spreaGitConfiguration}", spreaGitConfiguration);
+
+        var repositoryPath = spreaGitConfiguration!.RepositoryPath;
+
+        if (!Directory.Exists(repositoryPath))
+        {
+            logger.LogError("Directory does not exists: {repositoryPath}", repositoryPath);
+
+            return;
+        }
+
+        var commits = repositoryReader.GetGitCommits(repositoryPath);
+
+        logger.LogInformation("Logs count: {commitsCount}", commits.Count());
+
+        foreach (var commit in commits)
+        {
+            logger.LogInformation("Id: {id}", commit.Id);
+        }
+
+        var outputPath = spreaGitConfiguration!.OutputPath;
+
+        logger.LogInformation("Output Path: {outputPath}", repositoryPath);
+
+        var outputRepositoryName = new DirectoryInfo(repositoryPath).Name + " spreagit";
+        var outputRepositoryPath = Path.Combine(outputPath, outputRepositoryName);
+        
+        logger.LogInformation("Ouput Repository Path: {outputPath}", repositoryPath);
+
+        var suffix = 1;
+        while (Directory.Exists(outputRepositoryPath))
+        {
+            outputRepositoryPath = Path.Combine(outputPath, $"{outputRepositoryName} ({suffix})");
+            suffix++;
+        }
+
+        Directory.CreateDirectory(outputRepositoryPath);
+
+        repositoryWriter.WriteGitCommits(outputRepositoryPath, commits);
     }
 }
