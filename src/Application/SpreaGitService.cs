@@ -3,15 +3,13 @@ using Microsoft.Extensions.Logging;
 
 namespace dk.roderos.SpreaGit.Application;
 
-public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitService> logger, 
-    IConfigurationReader configurationReader, IRepositoryReader repositoryReader, IRepositoryWriter repositoryWriter) : ISpreaGitService
+public class SpreaGitService(
+    IConfiguration configuration,
+    ILogger<SpreaGitService> logger,
+    IConfigurationReader configurationReader,
+    IRepositoryReader repositoryReader,
+    IRepositoryWriter repositoryWriter) : ISpreaGitService
 {
-    private readonly IConfiguration configuration = configuration;
-    private readonly ILogger<SpreaGitService> logger = logger;
-    private readonly IConfigurationReader configurationReader = configurationReader;
-    private readonly IRepositoryReader repositoryReader = repositoryReader;
-    private readonly IRepositoryWriter repositoryWriter = repositoryWriter;
-
     public async Task SpreaGitAsync()
     {
         var configFile = configuration.GetSection("config").Value;
@@ -45,23 +43,20 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
             return;
         }
 
-        var commits = repositoryReader.GetGitCommits(repositoryPath);
+        // We need to start at the initial commit so we should reverse the list
+        var commits = repositoryReader.GetGitCommits(repositoryPath).ToList();
+        commits.Reverse();
 
-        logger.LogInformation("Logs count: {commitsCount}", commits.Count());
+        logger.LogInformation("Logs count: {commitsCount}", commits.Count);
 
-        foreach (var commit in commits)
-        {
-            logger.LogInformation("Id: {id}", commit.Id);
-        }
-
-        var outputPath = spreaGitConfiguration!.OutputPath;
+        var outputPath = spreaGitConfiguration.OutputPath;
 
         logger.LogInformation("Output Path: {outputPath}", repositoryPath);
 
         var outputRepositoryName = new DirectoryInfo(repositoryPath).Name + " spreagit";
         var outputRepositoryPath = Path.Combine(outputPath, outputRepositoryName);
-        
-        logger.LogInformation("Ouput Repository Path: {outputPath}", repositoryPath);
+
+        logger.LogInformation("Output Repository Path: {outputPath}", repositoryPath);
 
         var suffix = 1;
         while (Directory.Exists(outputRepositoryPath))
@@ -72,6 +67,12 @@ public class SpreaGitService(IConfiguration configuration, ILogger<SpreaGitServi
 
         Directory.CreateDirectory(outputRepositoryPath);
 
-        repositoryWriter.WriteGitCommits(outputRepositoryPath, commits);
+        repositoryWriter.InitializeGit(outputRepositoryPath);
+
+        foreach (var commit in commits)
+        {
+            logger.LogInformation("Checking out commit: {commitId}", commit.Id);
+            repositoryReader.CheckoutCommit(repositoryPath, commit.Id);
+        }
     }
 }

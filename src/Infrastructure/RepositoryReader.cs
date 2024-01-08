@@ -7,23 +7,26 @@ namespace dk.roderos.SpreaGit.Infrastructure;
 
 public class RepositoryReader : IRepositoryReader
 {
-    public IEnumerable<GitLog> GetGitCommits(string repositoryPath) {
+    public void CheckoutCommit(string repositoryPath, string commitHash)
+    {
         using var repository = new Repository(repositoryPath);
 
-        var RFC2822Format = "ddd dd MMM HH:mm:ss yyyy K";
-        var commits = new List<GitLog>();
+        Commands.Checkout(repository, commitHash);
+    }
 
-        foreach (var commit in repository.Commits)
-        {
-            var id = commit.Sha;
-            var author = commit.Author.Name;
-            var email = commit.Author.Email;
-            var date = commit.Author.When.ToString(RFC2822Format, CultureInfo.InvariantCulture);
-            var message = commit.Message;
+    public IEnumerable<GitLog> GetGitCommits(string repositoryPath)
+    {
+        using var repository = new Repository(repositoryPath);
 
-            commits.Add(new(id, author, email, date, message));
-        }
+        const string rfc2822Format = "ddd dd MMM HH:mm:ss yyyy K";
 
-        return commits;
+        return (from commit in repository.Commits
+                let id = commit.Sha
+                let author = commit.Author.Name
+                let email = commit.Author.Email
+                let date = commit.Author.When.ToString(rfc2822Format, CultureInfo.InvariantCulture)
+                let message = commit.Message
+                select new GitLog(id, author, email, date, message))
+            .ToList();
     }
 }
