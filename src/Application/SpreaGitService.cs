@@ -36,6 +36,8 @@ public class SpreaGitService(
 
         var repositoryPath = spreaGitConfiguration!.RepositoryPath;
 
+        logger.LogInformation("Repository Path: {repositoryPath}", repositoryPath);
+
         if (!Directory.Exists(repositoryPath))
         {
             logger.LogError("Directory does not exists: {repositoryPath}", repositoryPath);
@@ -53,6 +55,14 @@ public class SpreaGitService(
 
         logger.LogInformation("Output Path: {outputPath}", repositoryPath);
 
+        if (!Directory.Exists(outputPath))
+        {
+            logger.LogError("Directory does not exists: {outputPath}", outputPath);
+
+            return;
+        }
+
+        // We append "spreagit" to the repository name to avoid confusion
         var outputRepositoryName = new DirectoryInfo(repositoryPath).Name + " spreagit";
         var outputRepositoryPath = Path.Combine(outputPath, outputRepositoryName);
 
@@ -71,8 +81,13 @@ public class SpreaGitService(
 
         foreach (var commit in commits)
         {
+            // Not sure if it's necessary to log this because it's very slow
             logger.LogInformation("Checking out commit: {commitId}", commit.Id);
             repositoryReader.CheckoutCommit(repositoryPath, commit.Id);
         }
+        
+        // We'll commit once for now until it works properly
+        repositoryWriter.CopyRepositoryContents(repositoryPath, outputRepositoryPath);
+        repositoryWriter.Commit(outputRepositoryPath, commits[^1]);
     }
 }
