@@ -19,9 +19,8 @@ try
         options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
     });
 
-    using IHost host = builder.Build();
+    using var host = builder.Build();
 
-    var logger = host.Services.GetRequiredService<ILogger<Program>>();
     var spreaGitService = host.Services.GetRequiredService<ISpreaGitService>();
 
     await spreaGitService.SpreaGitAsync();
