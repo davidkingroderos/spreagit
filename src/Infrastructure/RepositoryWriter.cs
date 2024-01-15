@@ -10,8 +10,31 @@ public class RepositoryWriter : IRepositoryWriter
     {
         Repository.Init(outputRepositoryPath);
     }
+    
+    public void DeleteRepositoryContents(string targetPath)
+    {
+        var directoryInfo = new DirectoryInfo(targetPath);
+
+        foreach (var file in directoryInfo.GetFiles())
+        {
+            file.Delete(); 
+        }
+
+        // Delete all folders but dont include the .git folder
+        var directories = directoryInfo.GetDirectories()
+            .Where(folder => !folder.Name.EndsWith(".git", StringComparison.CurrentCultureIgnoreCase));
+        foreach (var directory in directories)
+        {
+            directory.Delete(true); 
+        } 
+    }
 
     public void CopyRepositoryContents(string repositoryPath, string targetPath)
+    {
+        CopyFiles(repositoryPath, targetPath);
+    }
+
+    private static void CopyFiles(string repositoryPath, string targetPath)
     {
         // The first directory (output repository path) should exist but its needed because the method is going recursively
         if (!Directory.Exists(targetPath))
@@ -19,13 +42,17 @@ public class RepositoryWriter : IRepositoryWriter
 
         // TODO: If possible, don't copy files in .gitignore
         foreach (var file in Directory.GetFiles(repositoryPath))
-            File.Copy(file, Path.Combine(targetPath, Path.GetFileName(file)));
+        {
+            var destinationFile = Path.Combine(targetPath, Path.GetFileName(file));
+            File.Copy(file, destinationFile, true);
+        }
 
         // Copy all folders but .git folder shouldn't be included
         // This since theres no proper way to copy folders, we'll do it recursively
-        var directories = Directory.GetDirectories(repositoryPath).Where(folder => !folder.EndsWith(".git")).ToList();
+        var directories = Directory.GetDirectories(repositoryPath)
+            .Where(folder => !folder.EndsWith(".git", StringComparison.CurrentCultureIgnoreCase)).ToList();
         foreach (var directory in directories)
-            CopyRepositoryContents(directory, Path.Combine(targetPath, Path.GetFileName(directory)));
+            CopyFiles(directory, Path.Combine(targetPath, Path.GetFileName(directory)));
     }
 
     public void Commit(string outputRepositoryPath, GitLog gitLog)
@@ -40,7 +67,7 @@ public class RepositoryWriter : IRepositoryWriter
         {
             AllowEmptyCommit = true
         };
-        
+
         // The committer is also the author
         repository.Commit(gitLog.Message, author, author, allowEmptyCommit);
     }

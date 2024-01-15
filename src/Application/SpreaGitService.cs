@@ -81,13 +81,14 @@ public class SpreaGitService(
 
         foreach (var commit in commits)
         {
-            // Not sure if it's necessary to log this because it's very slow
+            logger.LogInformation("Deleting repository contents: {commitId}", commit.Id);
+            repositoryWriter.DeleteRepositoryContents(outputRepositoryPath);
             logger.LogInformation("Checking out commit: {commitId}", commit.Id);
             repositoryReader.CheckoutCommit(repositoryPath, commit.Id);
+            logger.LogInformation("Copying repository contents: {commitId}", commit.Id);
+            repositoryWriter.CopyRepositoryContents(repositoryPath, outputRepositoryPath);
+            logger.LogInformation("Committing: {commitId}", commit.Id);
+            repositoryWriter.Commit(outputRepositoryPath, commits[^1]);
         }
-        
-        // We'll commit once for now until it works properly
-        repositoryWriter.CopyRepositoryContents(repositoryPath, outputRepositoryPath);
-        repositoryWriter.Commit(outputRepositoryPath, commits[^1]);
     }
 }
