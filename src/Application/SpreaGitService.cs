@@ -8,7 +8,8 @@ public class SpreaGitService(
     ILogger<SpreaGitService> logger,
     IConfigurationReader configurationReader,
     IRepositoryReader repositoryReader,
-    IRepositoryWriter repositoryWriter) : ISpreaGitService
+    IRepositoryWriter repositoryWriter,
+    ICommitDateSpreader commitDateSpreader) : ISpreaGitService
 {
     public async Task SpreaGitAsync()
     {
@@ -46,10 +47,15 @@ public class SpreaGitService(
         }
 
         // We need to start at the initial commit so we should reverse the list
-        var commits = repositoryReader.GetGitCommits(repositoryPath).ToList();
-        commits.Reverse();
-
-        logger.LogInformation("Logs count: {commitsCount}", commits.Count);
+        var commits = repositoryReader.GetGitCommits(repositoryPath).Reverse().ToList();
+        // TODO: Spread out dates of commits
+        // TODO: Check if startDate is earlier than endDate
+        // TODO: Fix where startDate and endDate are same dates
+        // TODO: Fix date formatting on args
+        var alteredCommits = commitDateSpreader.SpreadOutDateCommits(commits, DateTime.Now.AddDays(-15), 
+            DateTime.Now.AddDays(15)).ToList();
+        
+        logger.LogInformation("Logs count: {alteredCommitsCount}", alteredCommits.Count);
 
         var outputPath = spreaGitConfiguration.OutputPath;
 
@@ -79,8 +85,10 @@ public class SpreaGitService(
 
         repositoryWriter.InitializeGit(outputRepositoryPath);
 
-        foreach (var commit in commits)
+        foreach (var commit in alteredCommits)
         {
+            // TODO: The repositoryWriter should be the one who is logging these information
+            // TODO: Make it into one method in repositoryWriter
             logger.LogInformation("Deleting repository contents: {commitId}", commit.Id);
             repositoryWriter.DeleteRepositoryContents(outputRepositoryPath);
             logger.LogInformation("Checking out commit: {commitId}", commit.Id);
@@ -88,7 +96,7 @@ public class SpreaGitService(
             logger.LogInformation("Copying repository contents: {commitId}", commit.Id);
             repositoryWriter.CopyRepositoryContents(repositoryPath, outputRepositoryPath);
             logger.LogInformation("Committing: {commitId}", commit.Id);
-            repositoryWriter.Commit(outputRepositoryPath, commits[^1]);
+            repositoryWriter.Commit(outputRepositoryPath, alteredCommits[^1]);
         }
     }
 }

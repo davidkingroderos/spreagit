@@ -12,6 +12,7 @@ try
     builder.Services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
     builder.Services.AddScoped<IRepositoryReader, RepositoryReader>();
     builder.Services.AddScoped<IRepositoryWriter, RepositoryWriter>();
+    builder.Services.AddScoped<ICommitDateSpreader, SimpleCommitDateSpreader>();
 
     builder.Logging.AddSimpleConsole(options =>
     {
