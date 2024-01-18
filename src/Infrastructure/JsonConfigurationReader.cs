@@ -10,6 +10,11 @@ public class JsonConfigurationReader : IConfigurationReader
     {
         await using var configurationFile = File.OpenRead(configuration);
 
-        return await JsonSerializer.DeserializeAsync<SpreaGitConfiguration?>(configurationFile);
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new JsonDateTimeConverter() }
+        };
+
+        return await JsonSerializer.DeserializeAsync<SpreaGitConfiguration?>(configurationFile, options);
     }
 }

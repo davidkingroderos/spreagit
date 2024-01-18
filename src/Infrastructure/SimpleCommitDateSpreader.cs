@@ -6,6 +6,7 @@ namespace dk.roderos.SpreaGit.Infrastructure;
 
 public class SimpleCommitDateSpreader : ICommitDateSpreader
 {
+    // TODO: Timezone should be included
     public IEnumerable<GitLog> SpreadOutDateCommits(List<GitLog> gitLogs, DateTime startDate, DateTime endDate)
     {
         if (startDate >= endDate)
@@ -26,7 +27,7 @@ public class SimpleCommitDateSpreader : ICommitDateSpreader
                 var currentLog = gitLogs[currentIndex];
                 var newDate = startDate.AddDays(day);
                 var newCommit = currentLog with { Date = newDate.ToString(CultureInfo.InvariantCulture) };
-            
+                
                 alteredCommits.Add(newCommit);
                 currentIndex++;
                 remainingCommits--;

@@ -3,5 +3,5 @@
 public record SpreaGitConfiguration(
     string RepositoryPath, 
     string OutputPath, 
-    string StartDate, 
-    string EndDate);
+    DateTime StartDate, 
+    DateTime EndDate);

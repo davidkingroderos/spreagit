@@ -48,12 +48,22 @@ public class SpreaGitService(
 
         // We need to start at the initial commit so we should reverse the list
         var commits = repositoryReader.GetGitCommits(repositoryPath).Reverse().ToList();
+        var startDate = spreaGitConfiguration.StartDate;
+        var endDate = spreaGitConfiguration.EndDate;
+
+        if (startDate > endDate)
+        {
+            logger.LogError("Start Date ({startDate}) should be earlier than End Date ({endDate})", 
+                startDate, endDate);
+
+            return;
+        }
+        
         // TODO: Spread out dates of commits
-        // TODO: Check if startDate is earlier than endDate
         // TODO: Fix where startDate and endDate are same dates
         // TODO: Fix date formatting on args
-        var alteredCommits = commitDateSpreader.SpreadOutDateCommits(commits, DateTime.Now.AddDays(-15), 
-            DateTime.Now.AddDays(15)).ToList();
+        var alteredCommits = commitDateSpreader.SpreadOutDateCommits(commits, startDate, 
+            endDate).ToList();
         
         logger.LogInformation("Logs count: {alteredCommitsCount}", alteredCommits.Count);
 
