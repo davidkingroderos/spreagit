@@ -11,6 +11,8 @@ public class SpreaGitService(
     IRepositoryWriter repositoryWriter,
     ICommitDateSpreader commitDateSpreader) : ISpreaGitService
 {
+    // TODO: Create configuration defaulter
+    // TODO: Create configuration validator
     public async Task SpreaGitAsync()
     {
         var configFile = configuration.GetSection("config").Value;
