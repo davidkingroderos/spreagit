@@ -108,7 +108,7 @@ public class SpreaGitService(
             logger.LogInformation("Copying repository contents: {commitId}", commit.Id);
             repositoryWriter.CopyRepositoryContents(repositoryPath, outputRepositoryPath);
             logger.LogInformation("Committing: {commitId}", commit.Id);
-            repositoryWriter.Commit(outputRepositoryPath, alteredCommits[^1]);
+            repositoryWriter.Commit(outputRepositoryPath, commit);
         }
     }
 }

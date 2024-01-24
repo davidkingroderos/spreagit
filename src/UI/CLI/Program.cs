@@ -2,36 +2,43 @@
 using dk.roderos.SpreaGit.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 try
 {
-    var builder = Host.CreateApplicationBuilder(args);
+    Log.Logger = new LoggerConfiguration()
+        .MinimumLevel.Verbose()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+        .Enrich.FromLogContext()
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] - {Message:lj}{NewLine}{Exception}")
+        .CreateLogger();
+    
+    Log.Information("Starting SpreaGit");
+    Log.Information("Configuring Services");
 
-    builder.Services.AddScoped<ISpreaGitService, SpreaGitService>();
-    builder.Services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
-    builder.Services.AddScoped<IRepositoryReader, RepositoryReader>();
-    builder.Services.AddScoped<IRepositoryWriter, RepositoryWriter>();
-    // builder.Services.AddScoped<ICommitDateSpreader, SimpleCommitDateSpreader>();
-    builder.Services.AddScoped<ICommitDateSpreader, ComplexCommitDateSpreader>();
-
-    builder.Logging.AddSimpleConsole(options =>
-    {
-        options.SingleLine = true;
-        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
-    });
-
+    var builder = Host.CreateDefaultBuilder(args)
+        .ConfigureServices((_, services) =>
+        {
+            services.AddScoped<ISpreaGitService, SpreaGitService>();
+            services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
+            services.AddScoped<IRepositoryReader, RepositoryReader>();
+            services.AddScoped<IRepositoryWriter, RepositoryWriter>();
+            services.AddScoped<ICommitDateSpreader, ComplexCommitDateSpreader>();
+        })
+        .UseSerilog();
+    
     using var host = builder.Build();
-
+   
     var spreaGitService = host.Services.GetRequiredService<ISpreaGitService>();
-
+    
     await spreaGitService.SpreaGitAsync();
 }
-catch (Exception ex)
-{
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine(ex.ToString());
-}
+// catch (Exception ex)
+// {
+//     Console.ForegroundColor = ConsoleColor.Red;
+//     Console.WriteLine(ex.ToString());
+// }
 finally
 {
     Console.ForegroundColor = ConsoleColor.Gray;

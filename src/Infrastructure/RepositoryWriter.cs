@@ -55,12 +55,15 @@ public class RepositoryWriter : IRepositoryWriter
             CopyFiles(directory, Path.Combine(targetPath, Path.GetFileName(directory)));
     }
 
+    // TODO: Fix bug on parsing dates
     public void Commit(string outputRepositoryPath, GitLog gitLog)
     {
         using var repository = new Repository(outputRepositoryPath);
         
         Commands.Stage(repository, "*");
 
+        // TODO: Change GitLog date datatype
+        // var author = new Signature(gitLog.Author, gitLog.Email, DateTime.Parse(gitLog.Date));
         var author = new Signature(gitLog.Author, gitLog.Email, DateTime.Now);
         // Allow empty commits for now
         var allowEmptyCommit = new CommitOptions()
