@@ -12,7 +12,7 @@ public class ComplexCommitDateSpreader : ICommitDateSpreader
         var secondsDifference = (int)timeDifference.TotalSeconds;
         var numberOfCommits = gitLogs.Count;
 
-        var secondsIntervals = NumberDivider.RandomlyDivideNumber(secondsDifference, numberOfCommits);
+        var secondsIntervals = NumberDivider.GetRandomNumberParts(secondsDifference, numberOfCommits);
         var alteredCommits = new List<GitLog>(); 
 
         alteredCommits.AddRange(gitLogs.Select((currentLog, i) => currentLog with

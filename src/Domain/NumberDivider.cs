@@ -2,30 +2,17 @@
 
 public static class NumberDivider
 {
-    public static List<int> RandomlyDivideNumber(int originalNumber, int numberOfDivisions)
+    public static List<int> GetRandomNumberParts(int originalNumber, int numberOfDivisions)
     {
-        // TODO: Fix bug where divisions are inconsistent
-        var random = new Random();
-        var result = new List<int>();
-        var remainingNumber = originalNumber;
+        var resultList = new List<int>();
+        var quotient = originalNumber / numberOfDivisions;
 
-        for (var i = 0; i < numberOfDivisions - 1; i++)
+        for (int i = 0, sumOfQuotients = 0; i < numberOfDivisions; i++)
         {
-            // Ensure that remainingNumber is not zero to prevent the exception
-            if (remainingNumber > 0)
-            {
-                var randomNumber = random.Next(1, remainingNumber);
-                result.Add(randomNumber);
-                remainingNumber -= randomNumber;
-            }
-            else
-            {
-                result.Add(0);
-            }
+            sumOfQuotients += quotient;
+            resultList.Add(sumOfQuotients);
         }
 
-        result.Add(remainingNumber);
-
-        return result;
+        return resultList;
     }
 }
