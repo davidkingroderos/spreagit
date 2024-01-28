@@ -24,7 +24,8 @@ try
             services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
             services.AddScoped<IRepositoryReader, RepositoryReader>();
             services.AddScoped<IRepositoryWriter, RepositoryWriter>();
-            services.AddScoped<ICommitDateSpreader, ComplexCommitDateSpreader>();
+            // services.AddScoped<ICommitDateSpreader, ComplexCommitDateSpreader>();
+            services.AddScoped<ICommitDateSpreader, CommitDateSpreader>();
         })
         .UseSerilog();
     
@@ -34,11 +35,11 @@ try
     
     await spreaGitService.SpreaGitAsync();
 }
-// catch (Exception ex)
-// {
-//     Console.ForegroundColor = ConsoleColor.Red;
-//     Console.WriteLine(ex.ToString());
-// }
+catch (Exception ex)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine(ex.ToString());
+}
 finally
 {
     Console.ForegroundColor = ConsoleColor.Gray;

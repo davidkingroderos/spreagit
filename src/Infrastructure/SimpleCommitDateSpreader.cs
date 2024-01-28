@@ -7,8 +7,11 @@ namespace dk.roderos.SpreaGit.Infrastructure;
 public class SimpleCommitDateSpreader : ICommitDateSpreader
 {
     // TODO: Timezone should be included
-    public IEnumerable<GitLog> SpreadOutDateCommits(List<GitLog> gitLogs, DateTime startDate, DateTime endDate)
+    public IEnumerable<GitLog> SpreadOutDateCommits(List<GitLog> gitLogs, SpreaGitConfiguration configuration)
     {
+        var startDate = configuration.StartDate;
+        var endDate = configuration.EndDate;
+        
         if (startDate >= endDate)
             throw new ArgumentException("Start date must be earlier than end date");
 

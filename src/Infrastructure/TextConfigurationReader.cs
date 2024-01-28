@@ -9,6 +9,6 @@ public class TextConfigurationReader : IConfigurationReader
     {
         await using var configurationFile = File.OpenRead(configuration);
 
-        return new SpreaGitConfiguration("foo", "foo", DateTime.Now, DateTime.Now);
+        return new SpreaGitConfiguration("foo", "foo", DateTime.Now, DateTime.Now, false);
     }
 }

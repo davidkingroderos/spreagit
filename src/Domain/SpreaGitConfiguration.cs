@@ -4,4 +4,5 @@ public record SpreaGitConfiguration(
     string RepositoryPath, 
     string OutputPath, 
     DateTime StartDate, 
-    DateTime EndDate);
+    DateTime EndDate,
+    bool IgnoreWeekends);

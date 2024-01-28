@@ -6,8 +6,11 @@ namespace dk.roderos.SpreaGit.Infrastructure;
 
 public class ComplexCommitDateSpreader : ICommitDateSpreader
 {
-    public IEnumerable<GitLog> SpreadOutDateCommits(List<GitLog> gitLogs, DateTime startDate, DateTime endDate)
+    public IEnumerable<GitLog> SpreadOutDateCommits(List<GitLog> gitLogs, SpreaGitConfiguration configuration)
     {
+        var startDate = configuration.StartDate;
+        var endDate = configuration.EndDate;
+            
         var timeDifference = endDate - startDate;
         var secondsDifference = (int)timeDifference.TotalSeconds;
         var numberOfCommits = gitLogs.Count;

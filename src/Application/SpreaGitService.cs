@@ -64,8 +64,7 @@ public class SpreaGitService(
         // TODO: Spread out dates of commits
         // TODO: Fix where startDate and endDate are same dates
         // TODO: Fix date formatting on args
-        var alteredCommits = commitDateSpreader.SpreadOutDateCommits(commits, startDate, 
-            endDate).ToList();
+        var alteredCommits = commitDateSpreader.SpreadOutDateCommits(commits, spreaGitConfiguration).ToList();
         
         logger.LogInformation("Logs count: {alteredCommitsCount}", alteredCommits.Count);
 
