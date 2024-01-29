@@ -1,4 +1,4 @@
-﻿namespace dk.roderos.SpreaGit.Domain;
+﻿namespace SpreaGit.Domain;
 
 public abstract class DateUtility
 {

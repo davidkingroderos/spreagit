@@ -1,8 +1,8 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Domain;
-using LibGit2Sharp;
+﻿using LibGit2Sharp;
+using SpreaGit.Application;
+using SpreaGit.Domain;
 
-namespace dk.roderos.SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure;
 
 public class RepositoryWriter : IRepositoryWriter
 {

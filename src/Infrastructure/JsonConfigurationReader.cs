@@ -1,8 +1,8 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Domain;
-using System.Text.Json;
+﻿using System.Text.Json;
+using SpreaGit.Application;
+using SpreaGit.Domain;
 
-namespace dk.roderos.SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure;
 
 public class JsonConfigurationReader : IConfigurationReader
 {

@@ -1,9 +1,9 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Domain;
+﻿using System.Globalization;
 using LibGit2Sharp;
-using System.Globalization;
+using SpreaGit.Application;
+using SpreaGit.Domain;
 
-namespace dk.roderos.SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure;
 
 public class RepositoryReader : IRepositoryReader
 {

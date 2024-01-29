@@ -1,9 +1,9 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using SpreaGit.Application;
+using SpreaGit.Infrastructure;
 
 try
 {

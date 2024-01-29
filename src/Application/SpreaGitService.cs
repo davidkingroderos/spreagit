@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace dk.roderos.SpreaGit.Application;
+namespace SpreaGit.Application;
 
 public class SpreaGitService(
     IConfiguration configuration,

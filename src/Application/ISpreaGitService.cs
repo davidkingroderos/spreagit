@@ -1,4 +1,4 @@
-﻿namespace dk.roderos.SpreaGit.Application;
+﻿namespace SpreaGit.Application;
 
 public interface ISpreaGitService
 {

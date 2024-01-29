@@ -1,6 +1,6 @@
-﻿using dk.roderos.SpreaGit.Domain;
+﻿using SpreaGit.Domain;
 
-namespace dk.roderos.SpreaGit.Application;
+namespace SpreaGit.Application;
 
 public interface IRepositoryReader
 {

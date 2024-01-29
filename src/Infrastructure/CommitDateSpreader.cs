@@ -1,7 +1,7 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Domain;
+﻿using SpreaGit.Application;
+using SpreaGit.Domain;
 
-namespace dk.roderos.SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure;
 
 public class CommitDateSpreader : ICommitDateSpreader
 {
