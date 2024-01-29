@@ -1,8 +1,8 @@
 ﻿using LibGit2Sharp;
-using SpreaGit.Application;
-using SpreaGit.Domain;
+using SpreaGit.Application.Interfaces;
+using SpreaGit.Domain.Models;
 
-namespace SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure.Writers;
 
 public class RepositoryWriter : IRepositoryWriter
 {

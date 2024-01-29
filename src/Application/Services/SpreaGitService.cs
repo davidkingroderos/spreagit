@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SpreaGit.Application.Interfaces;
 
-namespace SpreaGit.Application;
+namespace SpreaGit.Application.Services;
 
 public class SpreaGitService(
     IConfiguration configuration,

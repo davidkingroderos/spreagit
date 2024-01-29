@@ -1,4 +1,4 @@
-﻿namespace SpreaGit.Application;
+﻿namespace SpreaGit.Application.Interfaces;
 
 public interface ISpreaGitService
 {

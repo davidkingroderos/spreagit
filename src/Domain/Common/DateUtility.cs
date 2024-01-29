@@ -1,6 +1,6 @@
-﻿namespace SpreaGit.Domain;
+﻿namespace SpreaGit.Domain.Common;
 
-public abstract class DateUtility
+public static class DateUtility
 {
     public static IEnumerable<DateTimeOffset> GetDateTimeOffsets(DateTime startDate, DateTime endDate)
     {

@@ -1,6 +1,6 @@
-﻿using SpreaGit.Domain;
+﻿using SpreaGit.Domain.Models;
 
-namespace SpreaGit.Application;
+namespace SpreaGit.Application.Interfaces;
 
 public interface IConfigurationReader
 {

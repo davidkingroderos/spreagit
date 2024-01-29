@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
-using SpreaGit.Application;
-using SpreaGit.Domain;
+using SpreaGit.Application.Interfaces;
+using SpreaGit.Domain.Common;
+using SpreaGit.Domain.Models;
 
-namespace SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure.Readers;
 
 public class JsonConfigurationReader : IConfigurationReader
 {

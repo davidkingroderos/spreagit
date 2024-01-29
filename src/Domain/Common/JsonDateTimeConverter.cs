@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SpreaGit.Domain;
+namespace SpreaGit.Domain.Common;
 
 public class JsonDateTimeConverter : JsonConverter<DateTime>
 {

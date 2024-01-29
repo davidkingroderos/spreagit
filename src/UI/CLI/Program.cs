@@ -3,7 +3,12 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using SpreaGit.Application;
+using SpreaGit.Application.Interfaces;
+using SpreaGit.Application.Services;
 using SpreaGit.Infrastructure;
+using SpreaGit.Infrastructure.Readers;
+using SpreaGit.Infrastructure.Spreaders;
+using SpreaGit.Infrastructure.Writers;
 
 try
 {
