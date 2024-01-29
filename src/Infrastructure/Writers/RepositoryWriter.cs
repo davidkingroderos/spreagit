@@ -56,6 +56,7 @@ public class RepositoryWriter : IRepositoryWriter
     }
 
     // TODO: Fix bug on parsing dates
+    // TODO: Fix bug of commit dates
     public void Commit(string outputRepositoryPath, GitLog gitLog)
     {
         using var repository = new Repository(outputRepositoryPath);
@@ -64,14 +65,14 @@ public class RepositoryWriter : IRepositoryWriter
 
         // TODO: Change GitLog date datatype
         // var author = new Signature(gitLog.Author, gitLog.Email, DateTime.Parse(gitLog.Date));
-        var author = new Signature(gitLog.Author, gitLog.Email, DateTime.Now);
+        var author = new Signature(gitLog.Author, gitLog.Email, DateTime.Now); // TODO: Remove DateTime.Now()
         // Allow empty commits for now
         var allowEmptyCommit = new CommitOptions()
         {
             AllowEmptyCommit = true
         };
 
-        // The committer is also the author
+        // TODO: Add committer
         repository.Commit(gitLog.Message, author, author, allowEmptyCommit);
     }
 }

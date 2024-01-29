@@ -1,4 +1,4 @@
-namespace dk.roderos.SpreaGit.Application.Tests;
+namespace SpreaGit.Application.Tests;
 
 public class UnitTest1
 {
