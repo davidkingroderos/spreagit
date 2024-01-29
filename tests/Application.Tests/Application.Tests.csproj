@@ -7,7 +7,7 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <RootNamespace>dk.roderos.SpreaGit.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>SpreaGit.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
