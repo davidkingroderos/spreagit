@@ -1,4 +1,4 @@
-﻿namespace dk.roderos.SpreaGit.Domain;
+﻿namespace SpreaGit.Domain.Common;
 
 public static class NumberDivider
 {

@@ -1,9 +1,12 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using SpreaGit.Application.Interfaces;
+using SpreaGit.Application.Services;
+using SpreaGit.Infrastructure.Readers;
+using SpreaGit.Infrastructure.Spreaders;
+using SpreaGit.Infrastructure.Writers;
 
 try
 {
@@ -24,8 +27,8 @@ try
             services.AddScoped<IConfigurationReader, JsonConfigurationReader>();
             services.AddScoped<IRepositoryReader, RepositoryReader>();
             services.AddScoped<IRepositoryWriter, RepositoryWriter>();
-            // services.AddScoped<ICommitDateSpreader, ComplexCommitDateSpreader>();
-            services.AddScoped<ICommitDateSpreader, CommitDateSpreader>();
+            services.AddScoped<ICommitDateSpreader, ComplexCommitDateSpreader>();
+            // services.AddScoped<ICommitDateSpreader, CommitDateSpreader>();
         })
         .UseSerilog();
     

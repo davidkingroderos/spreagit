@@ -1,7 +1,7 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Domain;
+﻿using SpreaGit.Application.Interfaces;
+using SpreaGit.Domain.Models;
 
-namespace dk.roderos.SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure.Readers;
 
 public class TextConfigurationReader : IConfigurationReader
 {

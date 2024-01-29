@@ -1,4 +1,4 @@
-﻿namespace dk.roderos.SpreaGit.Domain;
+﻿namespace SpreaGit.Domain.Models;
 
 public record GitLog(
     string Id, 

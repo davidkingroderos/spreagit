@@ -1,6 +1,6 @@
-﻿using dk.roderos.SpreaGit.Domain;
+﻿using SpreaGit.Domain.Models;
 
-namespace dk.roderos.SpreaGit.Application;
+namespace SpreaGit.Application.Interfaces;
 
 public interface IRepositoryWriter
 {

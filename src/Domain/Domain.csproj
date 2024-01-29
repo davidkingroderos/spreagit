@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>dk.roderos.SpreaGit.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>SpreaGit.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
 </Project>

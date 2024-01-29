@@ -1,19 +1,19 @@
-﻿using dk.roderos.SpreaGit.Application;
-using dk.roderos.SpreaGit.Domain;
+﻿using SpreaGit.Application.Interfaces;
+using SpreaGit.Domain.Models;
 
-namespace dk.roderos.SpreaGit.Infrastructure;
+namespace SpreaGit.Infrastructure.Spreaders;
 
 public class CommitDateSpreader : ICommitDateSpreader
 {
     public IEnumerable<GitLog> SpreadOutDateCommits(List<GitLog> gitLogs, SpreaGitConfiguration configuration)
     {
-        var startDate = configuration.StartDate;
-        var endDate = configuration.EndDate;
+        // var startDate = configuration.StartDate;
+        // var endDate = configuration.EndDate;
         
         var alteredCommits = new List<GitLog>();
         alteredCommits.AddRange(gitLogs);
 
-        var committingHours = DateUtility.GetDateTimeOffsets(startDate, endDate);
+        // var committingHours = DateUtility.GetDateTimeOffsets(startDate, endDate);
 
         return alteredCommits;
     }
