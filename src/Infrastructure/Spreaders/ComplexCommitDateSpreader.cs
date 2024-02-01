@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using SpreaGit.Application.Interfaces;
+﻿using SpreaGit.Application.Interfaces;
 using SpreaGit.Domain.Common;
 using SpreaGit.Domain.Models;
 
@@ -21,8 +20,8 @@ public class ComplexCommitDateSpreader : ICommitDateSpreader
 
         alteredCommits.AddRange(gitLogs.Select((currentLog, i) => currentLog with
         {
-            Date = startDate.AddSeconds(secondsIntervals[i])
-                .ToString(CultureInfo.InvariantCulture)
+            // TODO: Change Date to DateTimeOffset so no conversion needed
+            Date = new DateTimeOffset(startDate.AddSeconds(secondsIntervals[i]), TimeZoneInfo.Local.GetUtcOffset(gitLogs[i].Date))
         }));
 
         return alteredCommits;

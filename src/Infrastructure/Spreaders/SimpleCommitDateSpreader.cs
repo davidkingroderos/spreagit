@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using SpreaGit.Application.Interfaces;
+﻿using SpreaGit.Application.Interfaces;
 using SpreaGit.Domain.Models;
 
 namespace SpreaGit.Infrastructure.Spreaders;
@@ -11,7 +10,7 @@ public class SimpleCommitDateSpreader : ICommitDateSpreader
     {
         var startDate = configuration.StartDate;
         var endDate = configuration.EndDate;
-        
+
         if (startDate >= endDate)
             throw new ArgumentException("Start date must be earlier than end date");
 
@@ -29,25 +28,25 @@ public class SimpleCommitDateSpreader : ICommitDateSpreader
             {
                 var currentLog = gitLogs[currentIndex];
                 var newDate = startDate.AddDays(day);
-                var newCommit = currentLog with { Date = newDate.ToString(CultureInfo.InvariantCulture) };
-                
+                var newCommit = currentLog with { Date = newDate };
+
                 alteredCommits.Add(newCommit);
                 currentIndex++;
                 remainingCommits--;
             }
-            
+
             for (var commitsAdded = 0;
                  commitsAdded < commitsPerDay && currentIndex < totalCommits;
                  commitsAdded++, currentIndex++)
             {
                 var currentLog = gitLogs[currentIndex];
                 var newDate = startDate.AddDays(day);
-                var newCommit = currentLog with { Date = newDate.ToString(CultureInfo.InvariantCulture) };
+                var newCommit = currentLog with { Date = newDate };
 
                 alteredCommits.Add(newCommit);
             }
         }
-        
+
         return alteredCommits;
     }
 }
